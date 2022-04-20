@@ -1,0 +1,221 @@
+<template>
+  <div class="body vh-100">
+    <div class="logo_nombre">
+      <b-container>
+        <b-row align-v="center">
+          <b-col class="text-center" cols="3"
+            ><img src="../icons/logo.svg" alt="logo"
+          /></b-col>
+          <b-col id="u" cols="9"><h1>Coffe express</h1></b-col>
+        </b-row>
+      </b-container>
+    </div>
+    <div class="buscador">
+      <div class="container_input">
+        <input
+          type="text"
+          class="input-text"
+          v-model="filtro"
+          placeholder="Buscar"
+        />
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="input-icon"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </div>
+    </div>
+    <br />
+    <br />
+    <b-container>
+      <b-row class="justify-content-center">
+        <b-col class="text-center" cols="10">
+          <div class="card" v-for="(show, index) in arrayFiltrado" :key="index">
+            <img :src="show.img" class="card-img-top" />
+            <div class="card-body">
+              <h1 class="card-title">{{ show.tipo }}</h1>
+            </div>
+          </div>
+          <div v-if="vacio" class="card">
+            <img src="../img/search.svg" class="vacio" />
+            <div class="card-body">
+              <h1 class="card-title vacio">
+                En este momento no tenemos el producto
+              </h1>
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
+</template>
+<script>
+export default {
+  name: "MenuM",
+  props: {
+    msg: String,
+  },
+  data() {
+    return {
+      hola: ["1111", "2222", "3333"],
+      busqueda: "",
+      productos: [
+        {
+          nombre: "Hola ",
+          tipo: 0,
+          edad: 60,
+        },
+        {
+          nombre: "Hola2 ",
+          tipo: "Postres",
+          edad: 1,
+        },
+      ],
+      categorias: [
+        { tipo: " Bebidas calientes", img: require("../img/cafe.jpg") },
+        { tipo: " Postres", img: require("../img/helado.jpg") },
+        { tipo: " Licores", img: require("../img/vino.jpg") },
+        { tipo: " Parva", img: require("../img/pan.jpg") },
+      ],
+      arrayFiltrado: [],
+      texto: "",
+      vacio: false,
+      loaded: false,
+    };
+  },
+  created() {
+    this.arrayFiltrado = this.categorias;
+  },
+  computed: {
+    filtro: {
+      get() {
+        return this.texto;
+      },
+      set(value) {
+        console.log(value);
+        this.texto = value;
+        value = value.toLowerCase();
+        this.arrayFiltrado = this.categorias.filter(
+          (nota) => nota.tipo.toLowerCase().indexOf(value) !== -1
+        );
+        if (this.arrayFiltrado.length == 0) {
+          return (this.vacio = true);
+        }
+        return (this.vacio = false);
+      },
+    },
+  },
+};
+</script>
+
+<style scoped>
+@font-face {
+  font-family: Vladimir Script;
+  src: url(../fonts/VLADIMIR.TTF);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.logo_nombre {
+  padding-top: 2%;
+  padding-left: 4%;
+}
+
+.logo_nombre img {
+  align-items: flex-end;
+  width: 100%;
+  margin: 4%;
+}
+
+.logo_nombre h1 {
+  color: #f7991d;
+  font-family: "Vladimir Script";
+  font-size: 6ch;
+}
+
+/* #u{
+  background-color: yellowgreen;
+} */
+
+.buscador {
+  padding-top: 10%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.container_input {
+  position: relative;
+  height: 6ch;
+  border-radius: 70px;
+  border-color: transparent;
+  -webkit-box-shadow: 6px 4px 15px 1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 6px 4px 15px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 6px 4px 15px 1px rgba(0, 0, 0, 0.2);
+}
+
+.container_input > input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding-left: 10%;
+  background-color: transparent;
+  border-color: transparent;
+  outline-color: transparent;
+  border-radius: 70px;
+}
+
+.container_input > input:focus {
+  transition: 0.5s;
+  outline-color: #f7991d;
+  border-radius: 70px;
+  color: black;
+}
+
+.container_input > input:focus ~ .input-icon {
+  transition: 0.5s;
+  color: #f7991d;
+}
+
+.input-icon {
+  color: #f7991d8a;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.card {
+  border: none;
+}
+
+.card-img-top {
+  border-radius: 7vw;
+  height: 45vw;
+}
+.vacio {
+  transform: translateY(-30%);
+}
+.vacio ~ div {
+  transform: translateY(-40%);
+}
+.card .card-body {
+  padding-top: 2px;
+}
+
+.card h1 {
+  font-family: "Swis721 Lt BT";
+}
+</style>
