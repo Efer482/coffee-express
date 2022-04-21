@@ -1,16 +1,19 @@
 <template>
   <div id="app">
+    <LoadingPage />
     <MenuM />
   </div>
 </template>
 
 <script>
 import MenuM from "./components/Menu.vue";
+import LoadingPage from "./components/LoadingPage.vue";
 
 export default {
   name: "App",
   components: {
     MenuM,
+    LoadingPage,
   },
 };
 </script>
