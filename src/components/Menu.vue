@@ -80,14 +80,13 @@ export default {
         },
       ],
       categorias: [
-        { tipo: " Bebidas calientes", img: require("../img/cafe.jpg") },
-        { tipo: " Postres", img: require("../img/helado.jpg") },
-        { tipo: " Licores", img: require("../img/vino.jpg") },
-        { tipo: " Parva", img: require("../img/pan.jpg") },
+        { tipo: "Bebidas calientes", img: require("../img/cafe.jpg") },
+        { tipo: "Postres", img: require("../img/helado.jpg") },
+        { tipo: "Licores", img: require("../img/vino.jpg") },
+        { tipo: "Parva", img: require("../img/pan.jpg") },
       ],
       arrayFiltrado: [],
       texto: "",
-      vacio: false,
       loaded: false,
     };
   },
@@ -106,10 +105,6 @@ export default {
         this.arrayFiltrado = this.categorias.filter(
           (nota) => nota.tipo.toLowerCase().indexOf(value) !== -1
         );
-        if (this.arrayFiltrado.length == 0) {
-          return (this.vacio = true);
-        }
-        return (this.vacio = false);
       },
     },
   },
