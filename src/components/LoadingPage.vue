@@ -1,20 +1,22 @@
 <template>
-  <div class="splash" v-if="!isloader">
-    <div class="logo_nombre">
-      <b-container class="grid-wrapper">
-        <b-row class="justify-content-center">
-          <b-col align-self="center" class="text-center" cols="6">
-            <img src="../icons/logo.svg" alt="logo" />
-          </b-col>
-        </b-row>
-        <b-row class="justify-content-center">
-          <b-col align-self="center" id="u" cols="9">
-            <h1>Coffe express</h1>
-          </b-col>
-        </b-row>
-      </b-container>
+  <transition name="fade">
+    <div class="splash" v-show="!isloader">
+      <div class="logo_nombre">
+        <b-container class="grid-wrapper">
+          <b-row class="justify-content-center">
+            <b-col align-self="center" class="text-center" cols="6">
+              <img src="../icons/logo.svg" alt="logo" />
+            </b-col>
+          </b-row>
+          <b-row class="justify-content-center">
+            <b-col align-self="center" id="u" cols="9">
+              <h1>Coffe express</h1>
+            </b-col>
+          </b-row>
+        </b-container>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 <script>
 export default {
@@ -68,5 +70,12 @@ export default {
   height: 100vh;
   z-index: 999;
   background-color: rgb(255, 255, 255);
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
