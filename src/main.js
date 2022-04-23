@@ -10,6 +10,9 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin);
+import VirtualCollection from "vue-virtual-collection";
+
+Vue.use(VirtualCollection);
 Vue.config.productionTip = false;
 
 new Vue({

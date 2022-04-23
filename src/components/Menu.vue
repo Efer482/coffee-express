@@ -76,6 +76,7 @@
               <img :src="show.img" class="card-img-top" />
               <div class="card-body">
                 <h1 class="card-title">{{ show.nombre }}</h1>
+                <h3 class="card-title">{{ show.precio }}</h3>
               </div>
             </div>
           </transition-group>
@@ -105,22 +106,40 @@ export default {
       busqueda: "",
       productos: [
         {
-          id: 1,
-          nombre: "Café",
+          nombre: " Café ",
           tipo: "Bebidas calientes",
           img: require("../img/cafe.jpg"),
+          precio: "$800",
         },
         {
-          id: 2,
-          nombre: "Mocca",
+          nombre: " Mocca ",
           tipo: "Bebidas calientes",
           img: require("../img/mocca.jpg"),
+          precio: "$2.600",
         },
         {
-          id: 3,
-          nombre: "Tinto",
+          nombre: " Tinto ",
           tipo: "Bebidas calientes",
           img: require("../img/tinto.jpg"),
+          precio: "$600",
+        },
+        {
+          nombre: " Helado ",
+          tipo: "Postres",
+          img: require("../img/helado.jpg"),
+          precio: "$3.000",
+        },
+        {
+          nombre: " croissant ",
+          tipo: "Parva",
+          img: require("../img/croissant.jpg"),
+          precio: "$2.500",
+        },
+        {
+          nombre: " Pan perro ",
+          tipo: "Parva",
+          img: require("../img/pan_perro.jpg"),
+          precio: "$2.000",
         },
       ],
       categorias: [
@@ -145,36 +164,33 @@ export default {
         return this.texto;
       },
       set(value) {
+        if (this.arrayFiltrado.length == 0) {
+          this.vacio = true;
+        }
         this.texto = value;
-        value = this.removeAccents(value);
+
+        value = value.toLowerCase();
+        value = value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         this.arrayFiltrado = this.productos.filter(
           (item) =>
             item.nombre
-              .toLowerCase()
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "")
+              .toLowerCase()
               .indexOf(value) !== -1
         );
-        if (this.arrayFiltrado.length == 0) {
-          this.vacio = true;
-        } else {
-          this.vacio = false;
-        }
       },
     },
   },
   methods: {
     click(value) {
+      this.arrayFiltrado = this.productos;
       this.clase = value;
     },
     volver() {
       this.clase = "";
       this.texto = "";
-    },
-    removeAccents(str) {
-      str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      str.toLowerCase();
-      return str;
+      this.vacio = false;
     },
   },
 };
