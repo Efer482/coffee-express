@@ -53,35 +53,35 @@
     <b-container>
       <b-row class="justify-content-center">
         <b-col class="text-center" cols="10">
-          <transition-group name="list">
-            <div
-              v-show="!texto && !clase"
-              class="card"
-              v-for="show in categorias"
-              :key="show.tipo"
-            >
-              <button v-on:click="click(show.tipo)">
-                <img :src="show.img" class="card-img-top" />
-                <div class="card-body">
-                  <h1 class="card-title">{{ show.tipo }}</h1>
-                </div>
-              </button>
-            </div>
-            <div
-              class="card"
-              v-for="(show, index) in arrayFiltrado"
-              :key="index + 1"
-              v-show="show.tipo == clase || texto"
-            >
+          <!-- <transition-group name="list"> -->
+          <div
+            v-show="!texto && !clase"
+            class="card"
+            v-for="show in categorias"
+            :key="show.tipo"
+          >
+            <button v-on:click="click(show.tipo)">
               <img :src="show.img" class="card-img-top" />
               <div class="card-body">
-                <h1 class="card-title">{{ show.nombre }}</h1>
-                <h3 class="card-title">{{ show.precio }}</h3>
+                <h1 class="card-title">{{ show.tipo }}</h1>
               </div>
-            </div>
-          </transition-group>
-
+            </button>
+          </div>
+          <!-- </transition-group> -->
           <!-- En caso de no existir el producto muestre un aviso -->
+          <div
+            v-show="show.tipo == clase || texto"
+            v-for="(show, index) in arrayFiltrado"
+            :key="index + 1"
+          >
+            <keep-alive>
+              <CardS
+                :name="show.nombre"
+                :precio="show.precio"
+                :img="show.img"
+              />
+            </keep-alive>
+          </div>
           <div v-if="vacio" class="card">
             <img src="../img/search.svg" class="vacio" />
             <div class="card-body">
@@ -96,10 +96,15 @@
   </div>
 </template>
 <script>
+import CardS from "./Cards";
+
 export default {
   name: "MenuM",
   props: {
     msg: String,
+  },
+  components: {
+    CardS,
   },
   data() {
     return {
@@ -108,45 +113,45 @@ export default {
         {
           nombre: " Café ",
           tipo: "Bebidas calientes",
-          img: require("../img/cafe.jpg"),
+          img: require("../img/min/cafe.jpg"),
           precio: "$800",
         },
         {
           nombre: " Mocca ",
           tipo: "Bebidas calientes",
-          img: require("../img/mocca.jpg"),
+          img: require("../img/min/mocca.jpg"),
           precio: "$2.600",
         },
         {
           nombre: " Tinto ",
           tipo: "Bebidas calientes",
-          img: require("../img/tinto.jpg"),
+          img: require("../img/min/tinto.jpg"),
           precio: "$600",
         },
         {
           nombre: " Helado ",
           tipo: "Postres",
-          img: require("../img/helado.jpg"),
+          img: require("../img/min/helado.jpg"),
           precio: "$3.000",
         },
         {
           nombre: " croissant ",
           tipo: "Parva",
-          img: require("../img/croissant.jpg"),
+          img: require("../img/min/croissant.jpg"),
           precio: "$2.500",
         },
         {
           nombre: " Pan perro ",
           tipo: "Parva",
-          img: require("../img/pan_perro.jpg"),
+          img: require("../img/min/pan_perro.jpg"),
           precio: "$2.000",
         },
       ],
       categorias: [
-        { tipo: "Bebidas calientes", img: require("../img/cafe1.jpg") },
-        { tipo: "Postres", img: require("../img/helado.jpg") },
-        { tipo: "Licores", img: require("../img/vino.jpg") },
-        { tipo: "Parva", img: require("../img/pan.jpg") },
+        { tipo: "Bebidas calientes", img: require("../img/min/cafe1.jpg") },
+        { tipo: "Postres", img: require("../img/min/helado.jpg") },
+        { tipo: "Licores", img: require("../img/min/vino.jpg") },
+        { tipo: "Parva", img: require("../img/min/pan.jpg") },
       ],
       arrayFiltrado: [],
       texto: "",
@@ -155,18 +160,13 @@ export default {
       clase: "",
     };
   },
-  created() {
-    this.arrayFiltrado = this.productos;
-  },
+  created() {},
   computed: {
     filtro: {
       get() {
         return this.texto;
       },
       set(value) {
-        if (this.arrayFiltrado.length == 0) {
-          this.vacio = true;
-        }
         this.texto = value;
 
         value = value.toLowerCase();
@@ -179,12 +179,23 @@ export default {
               .toLowerCase()
               .indexOf(value) !== -1
         );
+        this.vacioFuncion();
       },
     },
   },
   methods: {
+    vacioFuncion() {
+      if (this.arrayFiltrado.length == 0 || this.texto.length === "") {
+        this.vacio = true;
+      } else {
+        this.vacio = false;
+      }
+    },
     click(value) {
       this.arrayFiltrado = this.productos;
+      this.arrayFiltrado = this.productos.filter(
+        (item) => item.tipo.indexOf(value) !== -1
+      );
       this.clase = value;
     },
     volver() {
