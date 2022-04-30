@@ -61,7 +61,7 @@
             :key="show.tipo"
           >
             <button v-on:click="click(show.tipo)">
-              <img :src="show.img" class="card-img-top" />
+              <img loading="lazy" :src="show.img" class="card-img-top" />
               <div class="card-body">
                 <h1 class="card-title">{{ show.tipo }}</h1>
               </div>
@@ -160,7 +160,9 @@ export default {
       clase: "",
     };
   },
-  created() {},
+  created() {
+    this.arrayFiltrado = this.productos;
+  },
   computed: {
     filtro: {
       get() {

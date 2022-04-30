@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <img :src="img" class="card-img-top" />
+    <img :src="img" loading="lazy" class="card-img-top" />
     <div class="card-body">
       <h1 class="card-title">{{ name }}</h1>
       <h3 class="card-title">{{ precio }}</h3>
